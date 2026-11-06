@@ -26,7 +26,7 @@ def get_plays(token, season):
         headers={"Authorization": f"Bearer {token}", "Accept": "application/json"},
         params={"format": "json"},
     )
-    r.raise_for_status()
+    print(r.raise_for_status())
     data = r.json()
     return data.get("plays", data if isinstance(data, list) else [])
 
@@ -41,3 +41,6 @@ def __main__():
     Path('data/raw').mkdir(parents=True, exist_ok=True)
     out = f"data/raw/{LEAGUE}_{season}_plays.csv"
     df.to_csv(out, index=False)
+
+if __name__ == "__main__":
+    __main__()
