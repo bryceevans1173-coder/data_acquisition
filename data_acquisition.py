@@ -1,8 +1,8 @@
 import os
-import time
 import requests
 import pandas as pd
 from dotenv import load_dotenv
+from pathlib import Path
 
 load_dotenv()
 
@@ -32,3 +32,12 @@ def get_plays(token, season):
 
 def __main__():
     season = int(input("Which season would you like to obtain data for?:"))
+    token = get_token()
+    plays = get_plays(token, season)
+    print(f"Got {len(plays)} total plays")
+
+    df = pd.DataFrame(plays)
+
+    Path('data/raw').mkdir(parents=True, exist_ok=True)
+    out = f"data/raw/{LEAGUE}_{season}_plays.csv"
+    df.to_csv(out, index=False)
